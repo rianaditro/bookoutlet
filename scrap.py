@@ -17,7 +17,7 @@ def get_categories(soup:BeautifulSoup):
     result = dict()
     items = soup.find_all("h5","MuiTypography-root MuiTypography-h5")
     categories = [item.text for item in items]
-    for item in categories:
+    for item in categories[:5]:
         i = item.split()
         join = "%20".join(i).lower()
         url = f"https://bookoutlet.com/browse/products/{join}"
@@ -29,7 +29,10 @@ def how_many_pages(soup:BeautifulSoup):
     match = re.search(r"of (\d+)",pages)
     if match:
         result = match.group(1)
-    return int(result)
+    if int(result) < 5:
+        return int(result)
+    else:
+        return 3
 
 def get_all_url(soup:BeautifulSoup):
     book_urls = set()
@@ -50,10 +53,13 @@ def get_html_per_product(url:str):
     driver.get(url)
     time.sleep(3)
     
-    # I Agree Button
-    driver.find_element(By.XPATH,'//*[@id="cookieBanner"]/div/button').click()
-    # Additional Info Button
-    driver.find_element(By.XPATH,'//*[@id="main"]/main/div/div/div/div[4]/button[1]').click()
+    try:
+        # I Agree Button
+        driver.find_element(By.XPATH,'//*[@id="cookieBanner"]/div/button').click()
+        # Additional Info Button
+        driver.find_element(By.XPATH,'//*[@id="main"]/main/div/div/div/div[4]/button[1]').click()
+    except:
+        pass
 
     html = driver.page_source
     return html
@@ -102,21 +108,22 @@ def get_string(text):
         result = text
     return result
 
-def save_to_local(content,filename:str="output.txt",file_format:str="txt"):
-    if file_format == "txt":
-        with open(filename,"w",encoding="utf-8") as file:
-            file.write(', '.join(content))
-            file.close()
-        print(f"File saved to {filename}")
+def save_to_local(content,filename:str="output.txt"):
+    with open(filename,"w",encoding="utf-8") as file:
+        file.write(', '.join(content))
+        file.close()
+    print(f"File saved to {filename}")
+        
 
-if __name__=="__main__":
+
+def main():
     url_all_books = set()
 
     main_url = "https://bookoutlet.com/categories"
 
     soup = get_html(main_url)
     categories = get_categories(soup)
-    # {"category name":category url}
+    """{"category name":category url}"""
     for category in categories:
         print(f"Bookoutlet-category:{category}")
         url = categories[category]
@@ -134,11 +141,17 @@ if __name__=="__main__":
             except Exception as e:
                 print(f"{e} on {url_page}")
     save_to_local(url_all_books,"all_books_url.txt","txt")
-        
-    
-    """url = "https://bookoutlet.com/products/9780143118442B/difficult-conversations-how-to-discuss-what-matters-most"
-    #html = get_html_per_product(url)
-    
-    with open('sample_page.html','r',encoding="utf-8") as file:
-        html = file.read()
-        file.close()"""
+
+
+if __name__=="__main__":
+    result = []
+    with open("all_books_url.txt","r",encoding="utf-8") as file:
+        urls = file.read()
+        file.close()
+    urls = urls.split(",")
+    for url in urls:
+        html = get_html_per_product(url)
+        product_data = html_to_product_data(html)
+        product_data["URL"]=url
+        result.append(product_data)
+    save_to_local(result,"scrap_result.txt","txt")
