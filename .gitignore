@@ -8,3 +8,4 @@ all_link.csv
 try_aiocfscrape.py
 read_proxy.py
 output.log
+final_links.txt

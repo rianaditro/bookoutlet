@@ -70,4 +70,4 @@ def main()->list:
 if __name__=="__main__":
     result = main()
     with open("final_links.txt","w") as f:
-        f.writelines(result)
+        f.writelines([link + "," for link in result])

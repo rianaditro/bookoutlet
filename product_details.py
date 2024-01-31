@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
+from all_product_links import read_file_to_links
 
-import cloudscraper,json
+import cloudscraper,json,pandas
 
 
 def send_requests(url):
@@ -48,11 +49,21 @@ def parse_js(html):
         "image":image
     }
 
+def main():
+    result = []
+    all_links = read_file_to_links("final_links.txt")
+    # all data available up to 52000. The first 100 data need 2 minutes
+    #improve this
+    for links in all_links[1:100]:
+        html = send_requests(links)
+        parse = parse_js(html)
+        result.append(parse)
+    return result
+
+def save_to_excel(result):
+    df = pandas.DataFrame(result)
+    df.to_excel("final_result.xlsx",index=False)
 
 if __name__=="__main__":
-    url = "https://bookoutlet.com/products/9781472853486B/soviet-pistols-tokarev-makarov-stechkin-and-others-weapon-bk-84"
-    #html = open_browser(url)
-    html = send_requests(url)
-    #parse = parse_html(html)
-    parse = parse_js(html)
-    print(parse)
+    result = main()
+    save_to_excel(result)
