@@ -5,11 +5,11 @@ import cloudscraper,json,pandas
 
 
 def send_requests(url):
-    scraper = cloudscraper.create_scraper()
-    req = scraper.get(url)
-    print(f"getting {req.status_code} from {url}")
-    resp = req.text
-    return resp
+    with cloudscraper.create_scraper() as scraper:
+        resp = scraper.get(url)
+        print(f"getting {resp.status_code} from {url}")
+        resp = resp.text
+        return resp
 
 def parse_html(html):
     result = []
