@@ -2,7 +2,6 @@ import re
 import cloudscraper
 
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 
 def cloudscraper_get_page(url):
     scraper = cloudscraper.create_scraper()
