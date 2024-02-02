@@ -11,3 +11,6 @@ read_proxy.py
 output.log
 final_links.txt
 __pychache__
+db/__pychache__
+db/__pychache__/*
+db/__pycache__/convert.cpython-310.pyc

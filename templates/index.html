@@ -2,16 +2,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookoutlet v.2</title>
+    <title>Bookoutlet Scraping v.2</title>
 </head>
 <body>
     <div>
-        <h1>Welcome</h1>
+        <h1>Welcome!</h1>
+        <h4>Explore 50.000+ books from bookoutlet.com here</h4>
     </div>
-    <div id="table">
-        <p>Bookoutlet</p>
-        {{ html|safe }}
-    </div>
+    {% block table %}{% endblock %}
+    {% block upload %}{% endblock %}
 </body>
-
 </html>
