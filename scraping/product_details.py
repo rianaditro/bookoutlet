@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from all_product_links import read_file_to_links
+from scraping.all_product_links import read_file_to_links
 
 import cloudscraper,json,pandas
 

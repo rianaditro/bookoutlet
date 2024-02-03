@@ -28,6 +28,7 @@ def get_categories(html)->list:
         i = item.split()
         join = "%20".join(i).lower()
         url_category = f"https://bookoutlet.com/browse/products/{join}"
+        url_category = [item,url_category]
         result.append(url_category)
     return result
 
@@ -45,7 +46,7 @@ def loop_all_link(base_url)->list:
 
     list_url_categories = get_categories(html)
     for category in list_url_categories:
-        category_html = cloudscraper_get_page(category)
+        category_html = cloudscraper_get_page(category[1])
         pages = max_pages(category_html)
         for page in range(1,pages+1):
             url_pages = f"{category}?page={page}"

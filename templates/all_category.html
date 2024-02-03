@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block all_category %}
+<div>
+    <h4>List of Category</h4>
+    <ol>
+        {% for category in all_link %}
+        <li><a href='{{ url_for("category_page",url=category[1],page=1)}}'>{{ category[0] }}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}

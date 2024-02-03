@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block book_page %}
+<div>
+    <h4>List of books</h4>
+    <ol>
+        {% for book in books %}
+        <li><a href={{ book }}>{{ book.replace("https://bookoutlet.com/products/","") }}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+<div>
+    {% if page < 1 %}
+    <a href="{{ url_for("category_page",url = url ,page=page-1)}}">Previous</a>
+    {% endif %}
+    <span>Page {{ page }} of {{ max }}</span>
+    {% if page < max %}
+    <a href="{{ url_for("category_page",url = url, page=page+1)}}">Next</a>
+</div>
+{% endblock %}

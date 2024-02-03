@@ -1,9 +1,13 @@
+from scraping.copy_web import all_categories,open_page
+from scraping.scrap_all_book_links import max_pages
+from scraping.product_details import send_requests
+
+
 from flask import Flask,flash,request,redirect,url_for
 from flask import render_template
 from werkzeug.utils import secure_filename
 from db.convert import read_excel_to_sqlite
 
-import sqlite3
 import os
 from pathlib import Path
 
@@ -19,24 +23,18 @@ app.config["UPLOAD_FOLDER"] = os.path.join(BASE_DIR, "db/uploaded/")
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".",1)[1].lower()
 
-@app.route("/", methods = ["GET","POST"])
-def upload_excel():
-    if request.method == "POST":
-        if "file" not in request.files:
-            flash("No file part")
-            return redirect(request.url)
-        
-        file = request.files["file"]
-        if file.filename == "":
-            flash("No selected file")
-            return redirect(request.url)
-        
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            save_path = app.config["UPLOAD_FOLDER"]
-            file.save(save_path+filename)
-            return redirect(url_for("/table"))
-    return render_template("/upload.html")
+@app.route("/")
+def categories():
+    link = all_categories()
+    return render_template("/all_category.html",all_link = link)
+
+@app.route("/page_category/<url>/<page>")
+def category_page(url:str,page:int=1):
+    url = f"{url}?page={page}"
+    html = send_requests(url)
+    max = max_pages(html)
+    books = open_page(url)
+    return render_template("/page_category.html",max = max, books = books, page = page)
 
 @app.route("/table")
 def read_db():
