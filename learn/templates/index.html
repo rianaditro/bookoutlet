@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookoutlet Scraping | Learning Mode</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>ISBN</td>
+                <td>Title</td>
+                <td>Author</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records.items %}
+                <tr>
+                    <td>{{ record.isbn }}</td>
+                    <td>{{ record.title }}</td>
+                    <td>{{ record.author }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    <ul class="pagination">
+        {% for page_num in records.iter_pages() %}
+            {% if page_num %}
+                <li class="page-item {% if records.page == page_num %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('index', page=page_num) }}">{{ page_num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
