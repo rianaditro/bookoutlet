@@ -17,10 +17,9 @@ def read_excel_to_sql(filename):
 
 def read_excel_to_sqlite(filename):
     df = pandas.read_excel(filename)
-    conn = sqlite3.connect("bookoutlet.sqlite")
-    df.to_sql("bookTable",conn)
-    conn.row_factory = sqlite3.Row
-    return conn
+    conn = sqlite3.connect("db/bookoutlet.sqlite")
+    df.to_sql("bookTable",conn,if_exists="replace")
+    conn.close()
 
 def get_db(filename):
     db = sqlite3.connect(filename)
