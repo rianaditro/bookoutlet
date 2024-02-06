@@ -5,6 +5,32 @@ import json
 import pandas
 
 
+class Book(object):
+    def __init__(self, title, author, price, binding, 
+                 isbn, publisher_date, publisher, language, 
+                 page_count, dimension, image):
+        self.title = title
+        self.author = author
+        self.price = price
+        self.binding = binding
+        self.isbn = isbn
+        self.publisher_date = publisher_date
+        self.publisher = publisher
+        self.language = language
+        self.page_count = page_count
+        self.dimension = dimension
+        self.image = image
+
+def excel_to_object(filename):
+    df = pandas.read_excel(filename)
+    df_to_list = df.values.tolist()
+    df_instances = []
+    for df_ in df_to_list:
+        df_instances.append(Book(*df_))
+    
+    return df_instances
+
+
 def read_excel_to_html(filename):
     df = pandas.read_excel(filename)
     html = df.to_html()
@@ -34,4 +60,5 @@ def excel_to_dict():
 
 
 if __name__=="__main__":
-    read_excel_to_sqlite("final_result.xlsx")
+    instances = excel_to_object("split_result.xlsx")
+    print(instances)
