@@ -7,7 +7,7 @@ from views import view
 def create_app():
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///manage_db/bookoutlet.sqlite"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bookoutlet.sqlite"
     app.config["DEBUG"] = True
 
     from manage_db.models import Book

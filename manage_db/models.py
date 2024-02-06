@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from manage_db.extensions import db
+from .extensions import db
 
 
 class Book(db.Model):
