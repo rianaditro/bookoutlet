@@ -11,4 +11,4 @@ def index():
 
 @view.route("/table")
 def table():
-    return render_template()
+    return render_template("table.html")
