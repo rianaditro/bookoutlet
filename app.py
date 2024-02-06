@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent
 def create_app():
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR,'old.sqlite')}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///old.sqlite"
     app.config["DEBUG"] = True
 
     from manage_db.models import Book
