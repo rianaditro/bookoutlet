@@ -3,7 +3,6 @@ venv
 try.py
 try_typer.py
 sample_page.html
-src
 log.txt
 all_link.csv
 try_aiocfscrape.py
@@ -19,3 +18,4 @@ __pycache__/app.cpython-310.pyc
 __pycache__/extensions.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
 old.sqlite
+reports

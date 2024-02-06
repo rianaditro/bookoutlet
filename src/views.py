@@ -20,12 +20,13 @@ def index():
 
 @view.route("/table")
 def table():
-    books = Book.query.all()
-    
+    page = request.args.get('page',1,type=int)
+    per_page = 20
+    books = Book.query.paginate(page=page,per_page=per_page)
     context = {
         "data": books
     }
-    return render_template("table.html",data=books)
+    return render_template("table.html",books=books)
 
 def allowed_file(filename):
     return '.' in filename and \
