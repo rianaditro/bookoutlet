@@ -5,7 +5,7 @@ import json
 import pandas
 
 
-class Book(object):
+class BookExcel(object):
     def __init__(self, title, author, price, binding, 
                  isbn, publisher_date, publisher, language, 
                  page_count, dimension, image):
@@ -26,7 +26,7 @@ def excel_to_object(filename):
     df_to_list = df.values.tolist()
     df_instances = []
     for df_ in df_to_list:
-        df_instances.append(Book(*df_))
+        df_instances.append(BookExcel(*df_))
     
     return df_instances
 
@@ -57,8 +57,3 @@ def excel_to_dict():
     datas = df.to_json(index=False)
     products = json.loads(datas)
     print(products)
-
-
-if __name__=="__main__":
-    instances = excel_to_object("split_result.xlsx")
-    print(instances)

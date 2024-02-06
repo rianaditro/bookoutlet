@@ -8,11 +8,14 @@ import os
 
 
 BASE_DIR = Path(__file__).resolve().parent
+UPLOAD_FOLDER = f"{BASE_DIR}/managed_db/uploaded"
+
 
 def create_app():
     app = Flask(__name__)
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///old.sqlite"
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config["DEBUG"] = True
 
     from manage_db.models import Book

@@ -3,7 +3,6 @@ from .extensions import db
 
 class Book(db.Model):
     __tablename__ = "bookTable"
-    index = db.Column(db.Float(), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     author=db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float(), nullable=False)
