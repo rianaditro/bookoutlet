@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% block table %}
+<div id="table">
+    <table>
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>author</th>
+                <th>price</th>
+                <th>binding</th>
+                <th>ISBN</th>
+                <th>publish date</th>
+                <th>publisher</th>
+                <th>language</th>
+                <th>page count</th>
+                <th>dimension</th>
+                <th>image</th>
+            </tr>
+        </thead>
+        <tbody">
+            {% for row in data %}
+            <tr>
+                <td>{{ row.title }}</td>
+                <td>{{ row.author }}</td>
+                <td>{{ row.price }}</td>
+                <td>{{ row.binding }}</td>
+                <td>{{ row.isbn }}</td>
+                <td>{{ row.publish_date }}</td>
+                <td>{{ row.publisher }}</td>
+                <td>{{ row.language }}</td>
+                <td>{{ row.page_count }}</td>
+                <td>{{ row.dimension }}</td>
+                <td>{{ row.image }}</td>
+                <!--<td><img src="{{ row['image'] }}"></td>-->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
