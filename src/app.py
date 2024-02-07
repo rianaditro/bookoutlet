@@ -3,6 +3,7 @@ from pathlib import Path
 
 from extensions import db,migrate
 from views import view
+from view_api import api
 
 import os
 
@@ -24,6 +25,7 @@ def create_app():
     migrate.init_app(app=app,db=db)
 
     app.register_blueprint(view)
+    app.register_blueprint(api)
 
     return app
 
