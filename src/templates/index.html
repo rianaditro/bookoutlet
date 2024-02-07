@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="container-fluid">
-      <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary" style="padding: 15px;">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img src="{{ url_for('static',filename='logo.svg') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -34,7 +34,7 @@
     </div>
     <div class="container-fluid">
       <h1>this content doesnt show</h1>
-      <h6>Explore 50.000+ books from bookoutlet.com here</h6>
+      <h6 style="padding: 20px;">Explore 50.000+ books from bookoutlet.com here</h6>
       {% if search_query %}
       <p>Showing result for "{{ search_query }}"</p>
       {% endif %}

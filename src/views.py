@@ -26,10 +26,12 @@ def table():
     if request.method == 'POST':
         search_query = request.form['search_query']
         books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
-        return render_template("table2.html",books=books, search_query=search_query)
+        max_page = books.pages
+        return render_template("table2.html",books=books,page=page,max_page=max_page, search_query=search_query)
     
     books = Book.query.paginate(page=page,per_page=per_page)
-    return render_template("table2.html",books=books)
+    max_page = books.pages
+    return render_template("table2.html",books=books,max_page=max_page,page=page)
 
 def allowed_file(filename):
     return '.' in filename and \
