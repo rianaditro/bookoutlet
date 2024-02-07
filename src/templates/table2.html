@@ -5,8 +5,10 @@
         <div class="row row-cols-4">
             {% for row in books %}
             <div class="col">
-                <div class="container">
+                <div class="row">
                     <img src="{{ row['image'] }}" class="img-thumbnail"></td>
+                </div>
+                <div class="row">
                     <p>{{ row['title'] }}</p>
                 </div>
             </div>
