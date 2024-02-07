@@ -1,46 +1,53 @@
 {% extends "index.html" %}
 {% block table %}
-<div id="table">
-    <table>
-        <thead>
-            <tr>
-                <th>title</th>
-                <th>author</th>
-                <th>price</th>
-                <th>binding</th>
-                <th>ISBN</th>
-                <th>publish date</th>
-                <th>publisher</th>
-                <th>language</th>
-                <th>page count</th>
-                <th>dimension</th>
-                <th>image</th>
-            </tr>
-        </thead>
-        <tbody">
-            {% for row in books %}
-            <tr>
-                <td>{{ row.title }}</td>
-                <td>{{ row.author }}</td>
-                <td>{{ row.price }}</td>
-                <td>{{ row.binding }}</td>
-                <td>{{ row.isbn }}</td>
-                <td>{{ row.publish_date }}</td>
-                <td>{{ row.publisher }}</td>
-                <td>{{ row.language }}</td>
-                <td>{{ row.page_count }}</td>
-                <td>{{ row.dimension }}</td>
-                <td>{{ row.image }}</td>
-                <!--<td><img src="{{ row['image'] }}"></td>-->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container-fluid">  
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Binding</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Publish date</th>
+                    <th scope="col">Publisher</th>
+                    <th scope="col">Language</th>
+                    <th scope="col">Page count</th>
+                    <th scope="col">Dimension</th>
+                    <th scope="col">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in books %}
+                <tr>
+                    <td>{{ row.title }}</td>
+                    <td>{{ row.author }}</td>
+                    <td>{{ row.price }}</td>
+                    <td>{{ row.binding }}</td>
+                    <td>{{ row.isbn }}</td>
+                    <td>{{ row.publish_date }}</td>
+                    <td>{{ row.publisher }}</td>
+                    <td>{{ row.language }}</td>
+                    <td>{{ row.page_count }}</td>
+                    <td>{{ row.dimension }}</td>
+                    <td><img src="{{ row['image'] }}" class="img-thumbnail"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-{% if books.has_prev %}
-    <a href="{{ url_for('view.table', page=books.prev_num) }}">Previous</a>
-    {% endif %}
-    {% if books.has_next %}
-    <a href="{{ url_for('view.table', page=books.next_num) }}">Next</a>
-    {% endif %}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      {% if books.has_prev %}
+      <li class="page-item"><a class="page-link" href="{{ url_for('view.table', page=books.prev_num) }}">Previous</a></li>
+      {% endif %}
+
+      {% if books.has_next %}
+      <li class="page-item"><a class="page-link" href="{{ url_for('view.table', page=books.next_num) }}">Next</a></li>
+      {% endif %}
+    </ul>
+  </nav>    
 {% endblock %}
