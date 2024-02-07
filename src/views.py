@@ -18,14 +18,17 @@ view = Blueprint("view",__name__)
 def index():
     return render_template("index.html")
 
-@view.route("/")
+@view.route("/",methods=["GET","POST"])
 def table():
     page = request.args.get('page',1,type=int)
-    per_page = 20
+    per_page = 18
+
+    if request.method == 'POST':
+        search_query = request.form['search_query']
+        books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
+        return render_template("table2.html",books=books, search_query=search_query)
+    
     books = Book.query.paginate(page=page,per_page=per_page)
-    context = {
-        "data": books
-    }
     return render_template("table2.html",books=books)
 
 def allowed_file(filename):

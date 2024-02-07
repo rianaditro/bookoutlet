@@ -24,8 +24,8 @@
                 <a class="nav-link disabled" aria-disabled="true">Upload</a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Find books by title..." aria-label="Search">
+            <form action="/" method="post" class="d-flex" role="search">
+              <input name="search_query" class="form-control me-2" type="search" placeholder="Find books by title..." aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
@@ -35,6 +35,9 @@
     <div class="container-fluid">
       <h1>this content doesnt show</h1>
       <h6>Explore 50.000+ books from bookoutlet.com here</h6>
+      {% if search_query %}
+      <p>Showing result for "{{ search_query }}"</p>
+      {% endif %}
     </div>
     {% block table %}{% endblock %}
     {% block upload %}{% endblock %}
