@@ -18,7 +18,7 @@ view = Blueprint("view",__name__)
 def index():
     return render_template("index.html")
 
-@view.route("/table")
+@view.route("/")
 def table():
     page = request.args.get('page',1,type=int)
     per_page = 20
@@ -26,13 +26,13 @@ def table():
     context = {
         "data": books
     }
-    return render_template("table.html",books=books)
+    return render_template("table2.html",books=books)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@view.route("/",methods=['GET', 'POST'])
+@view.route("/upload",methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         # check if the post request has the file part
