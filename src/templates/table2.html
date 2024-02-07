@@ -16,7 +16,7 @@
 </div>
 
 <nav aria-label="Page navigation example">
-    <ul class="pagination">
+    <ul class="pagination justify-content-center">
       {% if books.has_prev %}
       <li class="page-item"><a class="page-link" href="{{ url_for('view.table', page=books.prev_num) }}">Previous</a></li>
       {% endif %}
