@@ -1,50 +1,95 @@
-{% extends "table.html" %}
+{% extends "index.html" %}
 {% block form %}
-<form action="/table" method="post" class="d-flex" role="search">
-    <div class="form-row disabled">
-      <div class="form-group col-md-6">
-        <label for="inputFname">Author First Name</label>
-        <input type="text" class="form-control" id="inputLname" placeholder="First Name">
+<div class="container" style="padding: top 20px;padding-bottom: 20px;width: 70%;">
+  <p>Add New Item</p>
+  <form action="/add" method="post">
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>ISBN</label>
+              <input name="isbn" {% if data %} value="{{ data.isbn }}" {% endif %} type="text" class="form-control" placeholder="13 digit only">
+          </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="inputLname">Last Name</label>
-        <input type="text" class="form-control" id="inputLname" placeholder="Last Name">
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Title</label>
+              <input name="title" {% if data %} value="{{ data.title }}" {% endif %} type="text" class="form-control" placeholder="Book title">
+          </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="inputTitle">Title</label>
-      <input type="text" class="form-control" id="inputTitle" placeholder="1234 Main St">
-    </div>
-    <div class="form-group">
-      <label for="inputIsbn">ISBN</label>
-      <input type="text" class="form-control" id="inputIsbn" placeholder="13 digit of numbers">
-    </div>
-    <div class="form-row disabled">
-      <div class="form-group col-md-6">
-        <label for="inputCity">City</label>
-        <input type="text" class="form-control" id="inputCity">
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Author First Name</label>
+              <input name="firstName" {% if data %} value="{{ data.author }}" {% endif %} type="text" class="form-control" placeholder="First Name">
+          </div>
+          <div class="col">
+              <label>Last Name</label>
+              <input name="lastName" type="text" class="form-control" placeholder="Last Name">
+          </div>   
       </div>
-      <div class="form-group col-md-4">
-        <label for="inputBinding">Binding</label>
-        <select id="inputBinding" class="form-control">
-          <option selected>Choose...</option>
-          <option value="Board Books">Board Books</option>
-          <option value="Boxed Set">Boxed Set</option>
-          <option value="Calendar">Calendar</option>
-          <option value="Compact Disc">Compact Disc</option>
-          <option value="Hardcover">Hardcover</option>
-          <option value="Imitation Leather">Imitation Leather</option>
-          <option value="Library Binding ">Library Binding</option>
-          <option value="Paperback">Paperback</option>
-          <option value="Pocket Books">Pocket Books</option>
-          <option value="Puzzles">Puzzles</option>
-        </select>
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Language</label>
+              <input name="language" {% if data %} value="{{ data.language }}" {% endif %} type="text" class="form-control" placeholder="Language">
+              <!--<select name="language" class="custom-select form-select">
+                  <option selected>Choose</option>
+                  <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
+                  <option value="Other">Other</option>
+                </select>-->
+          </div>
+          <div class="col">
+              <label>Price</label>
+              <input name="price" {% if data %} value="{{ data.price }}" {% endif %} type="text" class="form-control" placeholder="ex:7.99">
+          </div>   
+      </div> 
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Binding</label>
+              <input name="binding" {% if data %} value="{{ data.binding }}" {% endif %} type="text" class="form-control" placeholder="Binding">
+              <!--<select name="binding" class="custom-select form-select">
+                  <option selected>Choose</option>
+                  <option value="Board Books">Board Books</option>
+                  <option value="Boxed Set">Boxed Set</option>
+                  <option value="Calendar">Calendar</option>
+                  <option value="Compact Disc">Compact Disc</option>
+                  <option value="Hardcover">Hardcover</option>
+                  <option value="Imitation Leather">Imitation Leather</option>
+                  <option value="Library Binding ">Library Binding </option>
+                  <option value="Paperback">Paperback</option>
+                  <option value="Pocket Books">Pocket Books</option>
+                  <option value="Puzzles">Puzzles</option>
+                </select>-->
+          </div>
+          <div class="col">
+              <label>Page Count</label>
+              <input name="page_count" {% if data %} value="{{ data.page_count }}" {% endif %} type="text" class="form-control" placeholder="Page count">
+          </div>   
+      </div>         
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Publisher</label>
+              <input name="publisher" {% if data %} value="{{ data.publisher }}" {% endif %} type="text" class="form-control" placeholder="Publisher">
+          </div>
+          <div class="col">
+              <label>Publish Date</label>
+              <input name="publish_date" {% if data %} value="{{ data.publish_date }}" {% endif %} type="text" class="form-control" placeholder="Publish date">
+          </div>   
+      </div> 
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Dimension</label>
+              <input name="dimension" {% if data %} value="{{ data.dimension }}" {% endif %} type="text" class="form-control" placeholder="l x w x h (inch)">
+          </div>
       </div>
-      <div class="form-group col-md-2 disabled">
-        <label for="inputZip">Zip</label>
-        <input type="text" class="form-control" id="inputZip">
+      <div class="row" style="padding:5px">
+          <div class="col">
+              <label>Image</label>
+              <input name="image" {% if data %} value="{{ data.image }}" {% endif %} type="text" class="form-control" placeholder="this should be a file">
+          </div>
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+      <div class="row" style="padding:20px;width: 50%;">
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+  </form>
+</div>
 {% endblock %}

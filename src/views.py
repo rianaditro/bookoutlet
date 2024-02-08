@@ -94,38 +94,51 @@ def upload():
         return redirect(url_for("view.table"))
     return render_template("upload.html")
 
-@view.route("/",methods=["GET","POST"])
+@view.route("/table",methods=["GET","POST"])
 def table():
-    print(request.form)
-    if request.method == 'POST':
-        if request.form['inputTitle']:
-            item = Book(title=request.form.get("inputTitle"),
-                         isbn=request.form.get("inputIsbn"),
-                         author="author",
-                         price="123",
-                         binding="binding",
-                         publish_date="publish date",
-                         publisher="publsiher",
-                         language="language",
-                         page_count="page count",
-                         dimension="dimension",
-                         image="image"
-                         #author=request.form.get("input"),
-                        #  price=request.form.get("input"),
-                        #  binding=request.form.get("input"),
-                        #  publish_date=request.form.get("input"),
-                        #  publisher=request.form.get("input"),
-                        #  language=request.form.get("input"),
-                        #  page_count=request.form.get("input"),
-                        #  dimension=request.form.get("input"),
-                        #  image=request.form.get("input")
-                         )
-            print(item)
-            db.session.add(item)
-            db.session.commit()
-            return redirect(url_for("view.table"))
+    page = request.args.get('page',1,type=int)
+    per_page = 18
 
-    books=[]
-    max_page=10
-    page = 1
+    if request.method == 'POST':
+        if request.form['search_query']:
+            search_query = request.form['search_query']
+            books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
+            max_page = books.pages
+            return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
+        # else:
+        #     books = Book.query.paginate(page=page,per_page=per_page)
+        #     max_page = books.pages
+        #     return render_template("table.html",books=books,max_page=max_page,page=page)
+    
+    books = Book.query.paginate(page=page,per_page=per_page)
+    max_page = books.pages
     return render_template("table.html",books=books,max_page=max_page,page=page)
+
+@view.route("/add",methods=["GET","POST"])
+def add():
+    if request.form:
+        data = request.form
+        item = Book(title=data.get("title"),
+                isbn=data.get("isbn"),
+                author="author",
+                price="123",
+                binding="binding",
+                publish_date="publish date",
+                publisher="publsiher",
+                language="language",
+                page_count="page count",
+                dimension="dimension",
+                image="image")
+        if request.args.get('edit'):
+            item.verified
+            db.session.commit()
+        db.session.add(item)
+        db.session.commit()
+        return redirect(url_for('view.table'))
+    return render_template('form.html')
+
+@view.route("/edit",methods=["GET","POST"])
+def edit():
+    isbn = request.args.get('isbn')
+    books = Book.query.get(isbn)
+    return render_template('form.html',data=books, edit=True)
