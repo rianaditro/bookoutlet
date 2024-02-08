@@ -95,5 +95,37 @@ def upload():
     return render_template("upload.html")
 
 @view.route("/",methods=["GET","POST"])
-def update():
-    pass
+def table():
+    print(request.form)
+    if request.method == 'POST':
+        if request.form['inputTitle']:
+            item = Book(title=request.form.get("inputTitle"),
+                         isbn=request.form.get("inputIsbn"),
+                         author="author",
+                         price="123",
+                         binding="binding",
+                         publish_date="publish date",
+                         publisher="publsiher",
+                         language="language",
+                         page_count="page count",
+                         dimension="dimension",
+                         image="image"
+                         #author=request.form.get("input"),
+                        #  price=request.form.get("input"),
+                        #  binding=request.form.get("input"),
+                        #  publish_date=request.form.get("input"),
+                        #  publisher=request.form.get("input"),
+                        #  language=request.form.get("input"),
+                        #  page_count=request.form.get("input"),
+                        #  dimension=request.form.get("input"),
+                        #  image=request.form.get("input")
+                         )
+            print(item)
+            db.session.add(item)
+            db.session.commit()
+            return redirect(url_for("view.table"))
+
+    books=[]
+    max_page=10
+    page = 1
+    return render_template("table.html",books=books,max_page=max_page,page=page)
