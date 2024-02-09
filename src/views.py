@@ -159,3 +159,12 @@ def edit():
         return redirect(url_for('view.table'))
         
     return render_template('form.html',data=books)
+
+@view.route("/delete",methods=["GET","POST"])
+def delete():
+    isbn = request.args.get('isbn')
+    books = Book.query.get(isbn)
+    db.session.delete(books)
+    db.session.commit()
+
+    return redirect(url_for('view.table'))
