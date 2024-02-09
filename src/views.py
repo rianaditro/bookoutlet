@@ -98,17 +98,19 @@ def upload():
 def table():
     page = request.args.get('page',1,type=int)
     per_page = 18
-
+    
     if request.method == 'POST':
-        if request.form['search_query']:
-            search_query = request.form['search_query']
-            books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
-            max_page = books.pages
-            return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
-        # else:
-        #     books = Book.query.paginate(page=page,per_page=per_page)
+        
+        # if bool(request.form['search_query']):
+        #     print(request.form['search_query'])
+        #     search_query = request.form['search_query']
+        #     books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
         #     max_page = books.pages
-        #     return render_template("table.html",books=books,max_page=max_page,page=page)
+        #     return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
+        # else:
+            books = Book.query.paginate(page=page,per_page=per_page)
+            max_page = books.pages
+            return render_template("table.html",books=books,max_page=max_page,page=page)
     
     books = Book.query.paginate(page=page,per_page=per_page)
     max_page = books.pages
@@ -129,9 +131,6 @@ def add():
                 page_count="page count",
                 dimension="dimension",
                 image="image")
-        if request.args.get('edit'):
-            item.verified
-            db.session.commit()
         db.session.add(item)
         db.session.commit()
         return redirect(url_for('view.table'))
@@ -141,4 +140,23 @@ def add():
 def edit():
     isbn = request.args.get('isbn')
     books = Book.query.get(isbn)
-    return render_template('form.html',data=books, edit=True)
+    if request.form:
+        data = request.form
+        isbn = data.get('isbn')
+        books = Book.query.get(isbn) #object Book
+
+        books.title = data.get('title')
+        books.author = data.get('author')
+        books.price = data.get('price')
+        books.binding = data.get('binding')
+        books.publish_date = data.get('publish_date')
+        books.publisher = data.get('publisher')
+        books.language = data.get('language')
+        books.page_count = data.get('page_count')
+        books.dimension = data.get('dimension')
+        books.image = data.get('image')
+
+        db.session.commit()
+        return redirect(url_for('view.table'))
+        
+    return render_template('form.html',data=books)

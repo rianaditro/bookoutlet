@@ -2,7 +2,7 @@
 {% block form %}
 <div class="container" style="padding: top 20px;padding-bottom: 20px;width: 70%;">
   <p>Add New Item</p>
-  <form action="/add" method="post">
+  <form {% if data %} action="/edit" {% else %} action="/add" {% endif %} method="post">
       <div class="row" style="padding:5px">
           <div class="col">
               <label>ISBN</label>
@@ -18,7 +18,7 @@
       <div class="row" style="padding:5px">
           <div class="col">
               <label>Author First Name</label>
-              <input name="firstName" {% if data %} value="{{ data.author }}" {% endif %} type="text" class="form-control" placeholder="First Name">
+              <input name="author" {% if data %} value="{{ data.author }}" {% endif %} type="text" class="form-control" placeholder="First Name">
           </div>
           <div class="col">
               <label>Last Name</label>
