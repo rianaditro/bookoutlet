@@ -16,7 +16,7 @@ view = Blueprint("view",__name__)
 
 @view.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("login.html")
 
 @view.route("/catalog",methods=["GET","POST"])
 def catalog():

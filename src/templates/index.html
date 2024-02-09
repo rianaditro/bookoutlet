@@ -45,6 +45,7 @@
       <p>Showing result for "{{ search_query }}"</p>
       {% endif %}
     </div>
+    {% block login %}{% endblock %}
     {% block form %}{% endblock %}
     {% block table %}{% endblock %}
     {% block catalog %}{% endblock %}
