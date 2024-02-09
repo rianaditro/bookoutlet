@@ -1,8 +1,6 @@
 from flask import Blueprint,request,jsonify
 from models import Book
 
-import json,math
-
 
 api = Blueprint("api",__name__)
 

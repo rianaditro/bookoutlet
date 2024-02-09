@@ -1,3 +1,5 @@
+from flask_login import UserMixin
+
 from extensions import db
 
 
@@ -14,3 +16,8 @@ class Book(db.Model):
     page_count = db.Column(db.Integer(), nullable=False)
     dimension = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False)
+
+class User(UserMixin,db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(250),unique=True, nullable=False)
+    password = db.Column(db.String(250),nullable=False)

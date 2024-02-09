@@ -2,8 +2,8 @@ from flask import Blueprint, render_template
 from flask import flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from extensions import db
-from models import Book
+from extensions import db,login_manager
+from models import Book, User
 
 import pandas
 
@@ -99,18 +99,13 @@ def table():
     page = request.args.get('page',1,type=int)
     per_page = 18
     
-    #if request.method == 'POST':
     if request.form.get('search_query'):
         print(request.form.get('search_query'))
         search_query = request.form.get('search_query')
         books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
         max_page = books.pages
         return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
-          # else:
-        #     books = Book.query.paginate(page=page,per_page=per_page)
-        #     max_page = books.pages
-        #     return render_template("table.html",books=books,max_page=max_page,page=page)
-    
+
     books = Book.query.paginate(page=page,per_page=per_page)
     max_page = books.pages
     return render_template("table.html",books=books,max_page=max_page,page=page)
@@ -168,3 +163,8 @@ def delete():
     db.session.commit()
 
     return redirect(url_for('view.table'))
+
+@login_manager.user_loader
+def loader_user(user_id):
+    return User.query.get(user_id)
+

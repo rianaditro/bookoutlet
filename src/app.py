@@ -1,9 +1,10 @@
 from flask import Flask
 from pathlib import Path
 
-from extensions import db,migrate
+from extensions import db,migrate,login_manager
 from views import view
 from view_api import api
+from view_login import login_user
 
 import os
 
@@ -23,9 +24,11 @@ def create_app():
 
     db.init_app(app=app)
     migrate.init_app(app=app,db=db)
+    login_manager.init_app(app=app)
 
     app.register_blueprint(view)
     app.register_blueprint(api)
+    app.register_blueprint(login_user)
 
     return app
 
