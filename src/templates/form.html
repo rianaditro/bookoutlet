@@ -1,7 +1,11 @@
 {% extends "index.html" %}
 {% block form %}
 <div class="container" style="padding: top 20px;padding-bottom: 20px;width: 70%;">
+    {% if data %}
+  <p>Edit Item</p>
+  {% else %}
   <p>Add New Item</p>
+  {% endif %}
   <form {% if data %} action="/edit" {% else %} action="/add" {% endif %} method="post">
       <div class="row" style="padding:5px">
           <div class="col">
@@ -17,13 +21,13 @@
       </div>
       <div class="row" style="padding:5px">
           <div class="col">
-              <label>Author First Name</label>
-              <input name="author" {% if data %} value="{{ data.author }}" {% endif %} type="text" class="form-control" placeholder="First Name">
+              <label>Author's Name</label>
+              <input name="author" {% if data %} value="{{ data.author }}" {% endif %} type="text" class="form-control" placeholder="Last Name, First Name">
           </div>
           <div class="col">
-              <label>Last Name</label>
-              <input name="lastName" type="text" class="form-control" placeholder="Last Name">
-          </div>   
+            <label>Dimension</label>
+            <input name="dimension" {% if data %} value="{{ data.dimension }}" {% endif %} type="text" class="form-control" placeholder="l x w x h (inch)">
+          </div>
       </div>
       <div class="row" style="padding:5px">
           <div class="col">
@@ -74,17 +78,11 @@
               <label>Publish Date</label>
               <input name="publish_date" {% if data %} value="{{ data.publish_date }}" {% endif %} type="text" class="form-control" placeholder="Publish date">
           </div>   
-      </div> 
-      <div class="row" style="padding:5px">
-          <div class="col">
-              <label>Dimension</label>
-              <input name="dimension" {% if data %} value="{{ data.dimension }}" {% endif %} type="text" class="form-control" placeholder="l x w x h (inch)">
-          </div>
       </div>
       <div class="row" style="padding:5px">
           <div class="col">
               <label>Image</label>
-              <input name="image" {% if data %} value="{{ data.image }}" {% endif %} type="text" class="form-control" placeholder="this should be a file">
+              <input name="image" {% if data %} value="{{ data.image }}" {% endif %} type="text" class="form-control" placeholder="Image URL">
           </div>
       </div>
       <div class="row" style="padding:20px;width: 50%;">

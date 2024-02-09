@@ -14,7 +14,7 @@ ALLOWED_EXTENSIONS = {'xlsx','xls'}
 view = Blueprint("view",__name__)
 
 
-@view.route("/homepage")
+@view.route("/")
 def index():
     return render_template("index.html")
 
@@ -122,15 +122,15 @@ def add():
         data = request.form
         item = Book(title=data.get("title"),
                 isbn=data.get("isbn"),
-                author="author",
-                price="123",
-                binding="binding",
-                publish_date="publish date",
-                publisher="publsiher",
-                language="language",
-                page_count="page count",
-                dimension="dimension",
-                image="image")
+                author=data.get("author"),
+                price=data.get("price"),
+                binding=data.get("binding"),
+                publish_date=data.get("publish_date"),
+                publisher=data.get("publisher"),
+                language=data.get("language"),
+                page_count=data.get("page_count"),
+                dimension=data.get("dimension"),
+                image=data.get("image"))
         db.session.add(item)
         db.session.commit()
         return redirect(url_for('view.table'))
