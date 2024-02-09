@@ -62,8 +62,8 @@
     <li class="page-item active" aria-current="page"><a class="page-link" href="#"><span class="sr-only">Page {{ page }} of {{ max_page }}</span></a></li>
     {% if books.has_next %}
     <li class="page-item"><a class="page-link" href="{{ url_for('view.table', page=books.next_num) }}">Next</a></li>
-    {% endif %}
     <li class="page-item"><a class="page-link" href="{{ url_for('view.table', page=max_page) }}">Last</a></li>
+    {% endif %}
   </ul>
 </nav>     
 {% endblock %}
