@@ -18,6 +18,6 @@ class Book(db.Model):
     image = db.Column(db.String(255), nullable=False)
 
 class User(UserMixin,db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     username = db.Column(db.String(250),unique=True, nullable=False)
     password = db.Column(db.String(250),nullable=False)
