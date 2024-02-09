@@ -99,18 +99,17 @@ def table():
     page = request.args.get('page',1,type=int)
     per_page = 18
     
-    if request.method == 'POST':
-        
-        # if bool(request.form['search_query']):
-        #     print(request.form['search_query'])
-        #     search_query = request.form['search_query']
-        #     books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
+    #if request.method == 'POST':
+    if request.form.get('search_query'):
+        print(request.form.get('search_query'))
+        search_query = request.form.get('search_query')
+        books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
+        max_page = books.pages
+        return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
+          # else:
+        #     books = Book.query.paginate(page=page,per_page=per_page)
         #     max_page = books.pages
-        #     return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
-        # else:
-            books = Book.query.paginate(page=page,per_page=per_page)
-            max_page = books.pages
-            return render_template("table.html",books=books,max_page=max_page,page=page)
+        #     return render_template("table.html",books=books,max_page=max_page,page=page)
     
     books = Book.query.paginate(page=page,per_page=per_page)
     max_page = books.pages
