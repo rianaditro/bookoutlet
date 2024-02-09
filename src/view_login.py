@@ -24,7 +24,7 @@ def login():
             username=request.form.get("username")).first()
         if user.password == request.form.get("password"):
             login_user(user)
-            return redirect(url_for("view.index"))
+            return redirect(url_for("view.catalog"))
     return render_template("login.html")
 
 @login_user.route("/logout")
