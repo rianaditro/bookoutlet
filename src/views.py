@@ -10,9 +10,7 @@ import pandas
 
 ALLOWED_EXTENSIONS = {'xlsx','xls'}
 
-
 view = Blueprint("view",__name__)
-
 
 @view.route("/")
 def index():
@@ -163,8 +161,4 @@ def delete():
     db.session.commit()
 
     return redirect(url_for('view.table'))
-
-@login_manager.user_loader
-def loader_user(user_id):
-    return User.query.get(user_id)
 

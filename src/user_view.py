@@ -1,13 +1,13 @@
 from flask import Blueprint,request,redirect,url_for,render_template
 from flask_login import login_user,logout_user
 
-from extensions import db
+from extensions import db,login_manager
 from models import User
 
 
-login_user = Blueprint("login_user",__name__)
+user = Blueprint("user",__name__)
 
-@login_user.route("/sign_up",methods=["GET","POST"])
+@user.route("/sign_up",methods=["GET","POST"])
 def sign_up():
     if request.method == "POST":
         if request.form:
@@ -20,10 +20,16 @@ def sign_up():
                     password=password1)
                 db.session.add(user)
                 db.session.commit()
-                return redirect(url_for("login"))
+                return redirect(url_for("user.login",message="success"))
+            else:
+                return redirect(url_for("user.sign_up",message="failed"))
     return render_template("sign_up.html")
 
-@login_user.route("/login",methods=["GET","POST"])
+@login_manager.user_loader
+def loader_user(user_id):
+    return User.query.get(user_id)
+
+@user.route("/login",methods=["GET","POST"])
 def login():
     if request.method == "POST":
         user = User.query.filter_by(
@@ -31,9 +37,11 @@ def login():
         if user.password == request.form.get("password"):
             login_user(user)
             return redirect(url_for("view.catalog"))
+        else:
+            return redirect(url_for("user.login",message="invalid"))
     return render_template("login.html")
 
-@login_user.route("/logout")
+@user.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("view.index"))
