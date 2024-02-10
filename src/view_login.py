@@ -7,14 +7,20 @@ from models import User
 
 login_user = Blueprint("login_user",__name__)
 
-@login_user.route("/register",methods=["GET","POST"])
-def register():
+@login_user.route("/sign_up",methods=["GET","POST"])
+def sign_up():
     if request.method == "POST":
-        user = User(username=request.form.get("username"),
-                    password=request.form.get("password"))
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
+        if request.form:
+            username = request.form.get("username")
+            password1 = request.form.get("password1")
+            password2 = request.form.get("password2")
+            
+            if password1 == password2:
+                user = User(username=username,
+                    password=password1)
+                db.session.add(user)
+                db.session.commit()
+                return redirect(url_for("login"))
     return render_template("sign_up.html")
 
 @login_user.route("/login",methods=["GET","POST"])
