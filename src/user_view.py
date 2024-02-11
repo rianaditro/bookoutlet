@@ -1,7 +1,7 @@
 from flask import Blueprint,request,redirect,url_for,render_template
 from flask_login import login_user,logout_user
 
-from extensions import db,login_manager
+from extensions import db
 from models import User
 
 
@@ -24,10 +24,6 @@ def sign_up():
             else:
                 return redirect(url_for("user.sign_up",message="failed"))
     return render_template("sign_up.html")
-
-@login_manager.user_loader
-def loader_user(user_id):
-    return User.query.get(user_id)
 
 @user.route("/login",methods=["GET","POST"])
 def login():

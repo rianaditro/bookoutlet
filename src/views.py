@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template
 from flask import flash, request, redirect, url_for
+from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from extensions import db,login_manager
+from extensions import db
 from models import Book, User
 
 import pandas
@@ -93,6 +94,7 @@ def upload():
     return render_template("upload.html")
 
 @view.route("/table",methods=["GET","POST"])
+@login_required
 def table():
     page = request.args.get('page',1,type=int)
     per_page = 18
@@ -109,6 +111,7 @@ def table():
     return render_template("table.html",books=books,max_page=max_page,page=page)
 
 @view.route("/add",methods=["GET","POST"])
+@login_required
 def add():
     if request.form:
         data = request.form
@@ -129,6 +132,7 @@ def add():
     return render_template('form.html')
 
 @view.route("/edit",methods=["GET","POST"])
+@login_required
 def edit():
     isbn = request.args.get('isbn')
     books = Book.query.get(isbn)
@@ -154,6 +158,7 @@ def edit():
     return render_template('form.html',data=books)
 
 @view.route("/delete",methods=["GET","POST"])
+@login_required
 def delete():
     isbn = request.args.get('isbn')
     books = Book.query.get(isbn)
