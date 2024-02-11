@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 from extensions import db
 from models import Book, User
 
-import pandas
+import pandas, re
 
 
 ALLOWED_EXTENSIONS = {'xlsx','xls'}
@@ -16,6 +16,18 @@ view = Blueprint("view",__name__)
 @view.route("/")
 def index():
     return render_template("login.html")
+
+def book_urls(books):
+    urls = []
+    for book in books:
+        title = book.title
+        to_url = re.sub(r'[^a-zA-Z0-9]+', '-', title.replace("-","")).lower()
+        if to_url[-1] == "-":
+            to_url = to_url[:-1]
+            urls.append(to_url)
+        else:
+            urls.append(to_url)
+    return urls
 
 @view.route("/catalog",methods=["GET","POST"])
 def catalog():
@@ -29,8 +41,9 @@ def catalog():
         return render_template("catalog.html",books=books,page=page,max_page=max_page, search_query=search_query)
     
     books = Book.query.paginate(page=page,per_page=per_page)
+    book_url = book_urls(books)
     max_page = books.pages
-    return render_template("catalog.html",books=books,max_page=max_page,page=page)
+    return render_template("catalog.html",books=books, urls = book_url,max_page=max_page,page=page)
 
 def allowed_file(filename):
     return '.' in filename and \

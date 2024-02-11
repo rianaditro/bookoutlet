@@ -27,7 +27,7 @@
             <tbody>
                 {% for row in books %}
                 <tr>
-                    <td><img src="{{ row['image'] }}" class="img-thumbnail"></td>
+                    <td><img src="{{ row.image }}" class="img-thumbnail"></td>
                     <td>{{ row.title }}</td>
                     <td>{{ row.author }}</td>
                     <td>{{ row.price }}</td>
