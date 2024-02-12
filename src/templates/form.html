@@ -1,16 +1,18 @@
 {% extends "index.html" %}
 {% block form %}
-<div class="container" style="padding: top 20px;padding-bottom: 20px;width: 70%;">
+<div class="container">
     {% if data %}
-  <p>Edit Item</p>
-  {% else %}
-  <p>Add New Item</p>
-  {% endif %}
+    <p class="text-center">Edit Item</p>
+    {% else %}
+    <p class="text-center">Add New Item</p>
+    {% endif %}
+</div>
+<div class="container" style="padding: top 20px;padding-bottom: 20px;width: 70%;background-color: #E2E2E2;">
   <form {% if data %} action="/edit" {% else %} action="/add" {% endif %} method="post">
       <div class="row" style="padding:5px">
           <div class="col">
               <label>ISBN</label>
-              <input name="isbn" {% if data %} value="{{ data.isbn }}" {% endif %} type="text" class="form-control" placeholder="13 digit only">
+              <input name="isbn" {% if data %} value="{{ data.isbn }}" {% endif %} type="text" {% if data %} readonly class="form-control-plaintext" {% else %} class="form-control" {% endif %} placeholder="13 digit only">
           </div>
       </div>
       <div class="row" style="padding:5px">
