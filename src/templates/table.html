@@ -1,5 +1,12 @@
 {% extends "index.html" %}
 {% block table %}
+{% if request.args.get('messages')=='no file' %}
+<div class="container">
+  <div class="alert alert-warning" role="alert">
+    File can't be found or invalid format. Please try again.
+  </div>
+</div>
+{% endif %}
 <div class="container">
   <div class="row justify-content-center" style="padding:20px;">
     <div class="col">
@@ -48,10 +55,12 @@
                     <td>{{ row.dimension }}</td>
                     <td>
                       <div class="btn-group" role="group">
-                        <form action="{{ url_for('view.edit',isbn=row.isbn) }}" method="post">
+                        <form style="padding: 1px;" action="{{ url_for('view.edit',isbn=row.isbn) }}" method="post">
                           <button type="submit" class="btn btn-primary">Edit</button>
                         </form>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{ row.isbn }}">Delete</button>
+                        <form style="padding: 1px;" action="{{ url_for('view.delete',isbn=row.isbn) }}" method="post">
+                          <button type="submit" onclick="return confirm('The {{ row.title}} will bw deleted. Are you sure?')" class="btn btn-danger">Delete</button>
+                        </form>
                       </div>
                     </td>
                 </tr>
@@ -60,27 +69,6 @@
         </table>
     </div>
 </div>
-{% for row in books %}
-<!-- Modal -->
-<div class="modal fade" id="{{ row.isbn }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Please confirm</h5>
-      </div>
-      <div class="modal-body">
-        <img src="{{ row['image'] }}" class="img-thumbnail">
-        <p>This book will be deleted. Are you sure?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endfor %}
-
 <nav aria-label="Page navigation example" style="padding: 30px;">
   <ul class="pagination justify-content-center">
     {% if books.has_prev %}
