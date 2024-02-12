@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 from flask import flash, request, redirect, url_for
 from flask_login import login_required, current_user
+from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 
 from extensions import db
@@ -37,8 +38,9 @@ def catalog():
     if request.method == 'POST':
         search_query = request.form['search_query']
         books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
+        book_url = book_urls(books)
         max_page = books.pages
-        return render_template("catalog.html",books=books,page=page,max_page=max_page, search_query=search_query)
+        return render_template("catalog.html",books=books,urls=book_url,page=page,max_page=max_page, search_query=search_query)
     
     books = Book.query.paginate(page=page,per_page=per_page)
     book_url = book_urls(books)
@@ -100,9 +102,11 @@ def upload():
                          dimension=obj['dimension'],
                          image=obj['image']
                          )
-            
-            db.session.add(book)
-            db.session.commit()
+            try:
+                db.session.add(book)
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
         return redirect(url_for("view.table"))
     return render_template("upload.html")
 
