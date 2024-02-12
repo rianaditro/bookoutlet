@@ -108,7 +108,7 @@ def upload():
                 except IntegrityError:
                     db.session.rollback()
             return redirect(url_for("view.table"))
-    return render_template("upload.html")
+    return redirect(url_for("view.table"))
 
 @view.route("/table",methods=["GET","POST"])
 @login_required
@@ -178,9 +178,13 @@ def edit():
 @login_required
 def delete():
     isbn = request.args.get('isbn')
-    books = Book.query.get(isbn)
-    db.session.delete(books)
-    db.session.commit()
+    books = Book.query.get(int(isbn))
+    try:
+        db.session.delete(books)
+        db.session.commit()
+    except AttributeError:
+        flash("No data selected")
+        return redirect(url_for('view.table'))
 
     return redirect(url_for('view.table'))
 
