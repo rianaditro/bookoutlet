@@ -30,9 +30,14 @@ def login():
     if request.method == "POST":
         user = User.query.filter_by(
             username=request.form.get("username")).first()
-        if user.password == request.form.get("password"):
+        # if no username
+        if user == None:
+            return redirect(url_for("user.login",message="invalid"))
+        # if correct
+        elif user.password == request.form.get("password"):
             login_user(user)
             return redirect(url_for("view.catalog"))
+        # if wrong password
         else:
             return redirect(url_for("user.login",message="invalid"))
     return render_template("login.html")
