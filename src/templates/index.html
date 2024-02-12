@@ -11,7 +11,7 @@
     <div class="container-fluid">
       <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary" style="padding: 5px;">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="{{ url_for('view.catalog')}}">
             <img src="{{ url_for('static',filename='logo.svg') }}" alt="Logo" width="90" height="72" class="d-inline-block align-text-top">
           </a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -39,9 +39,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('api.main') }}">API</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Upload</a>
-              </li>
             </ul>
             <form action="/catalog" method="post" class="d-flex" role="search">
               <input name="search_query" class="form-control me-2" type="search" placeholder="Find books by title..." aria-label="Search">
@@ -62,9 +59,7 @@
     {% block sign_up %}{% endblock %}
     {% block form %}{% endblock %}
     {% block table %}{% endblock %}
-    {% block catalog %}{% endblock %}
-    {% block upload %}{% endblock %}
-    
+    {% block catalog %}{% endblock %}    
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>

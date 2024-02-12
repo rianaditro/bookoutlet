@@ -1,9 +1,17 @@
 {% extends "index.html" %}
 {% block table %}
 <div class="container">
-  <div class="row" style="padding:20px 10px;width:30%">
-    <a href="/add" class="btn btn-primary" role="button">Add New Data</a>
-</div>
+  <div class="row justify-content-center" style="padding:20px;">
+    <div class="col">
+      <a href="/add" class="btn btn-primary" role="button">Add New Data</a>
+      <div class="custom-file" style="padding-top:10px;">
+        <form action="/upload" method=post enctype=multipart/form-data>
+          <input type=file name=file style="background-color: grey;">
+          <input class="btn btn-primary" type=submit value=Upload>
+      </form>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="container">  
     <div class="table-responsive">

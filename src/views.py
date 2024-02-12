@@ -1,13 +1,14 @@
 from flask import Blueprint, render_template
 from flask import flash, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 
 from extensions import db
+from config import BaseConfig
 from models import Book, User
 
-import pandas, re
+import pandas, re, os
 
 
 ALLOWED_EXTENSIONS = {'xlsx','xls'}
@@ -64,50 +65,49 @@ def upload():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        # if file and allowed_file(file.filename):
-        #     filename = secure_filename(file.filename)
-        #     #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #     return redirect(url_for('download_file', name=filename))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(BaseConfig.UPLOAD_FOLDER, filename))
 
-        list_of_object = []
-        df = pandas.read_excel(file)
-        list_df = df.values.tolist()
+            list_of_object = []
+            df = pandas.read_excel(file)
+            list_df = df.values.tolist()
 
-        for l in list_df:
-            dic = {
-                "title":l[0],
-                "author":l[1],
-                "price":l[2],
-                "binding":l[3],
-                "isbn":l[4],
-                "publish_date":l[5],
-                "publisher":l[6],
-                "language":l[7],
-                "page_count":l[8],
-                "dimension":l[9],
-                "image":l[10]
-            }
-            list_of_object.append(dic)
-            
-        for obj in list_of_object:
-            book = Book(title=obj['title'], 
-                         author=obj['author'],
-                         price=obj['price'],
-                         binding=obj['binding'],
-                         isbn=obj['isbn'],
-                         publish_date=obj['publish_date'],
-                         publisher=obj['publisher'],
-                         language=obj['language'],
-                         page_count=obj['page_count'],
-                         dimension=obj['dimension'],
-                         image=obj['image']
-                         )
-            try:
-                db.session.add(book)
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
-        return redirect(url_for("view.table"))
+            for l in list_df:
+                dic = {
+                    "title":l[0],
+                    "author":l[1],
+                    "price":l[2],
+                    "binding":l[3],
+                    "isbn":l[4],
+                    "publish_date":l[5],
+                    "publisher":l[6],
+                    "language":l[7],
+                    "page_count":l[8],
+                    "dimension":l[9],
+                    "image":l[10]
+                }
+                list_of_object.append(dic)
+                
+            for obj in list_of_object:
+                book = Book(title=obj['title'], 
+                            author=obj['author'],
+                            price=obj['price'],
+                            binding=obj['binding'],
+                            isbn=obj['isbn'],
+                            publish_date=obj['publish_date'],
+                            publisher=obj['publisher'],
+                            language=obj['language'],
+                            page_count=obj['page_count'],
+                            dimension=obj['dimension'],
+                            image=obj['image']
+                            )
+                try:
+                    db.session.add(book)
+                    db.session.commit()
+                except IntegrityError:
+                    db.session.rollback()
+            return redirect(url_for("view.table"))
     return render_template("upload.html")
 
 @view.route("/table",methods=["GET","POST"])
