@@ -11,7 +11,7 @@ def main():
     template_return = dict()
     books = Book.query.paginate(page=page,per_page=per_page)
     book_in_page = []
-    for book in books:
+    for book in books.items:
         item = {
             "title":book.title,
             "author":book.author,

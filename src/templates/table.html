@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                {%- for row in books %}
+                {%- for row in books.items %}
                 <tr>
                     <td><img src="{{ row.image }}" class="img-thumbnail"></td>
                     <td>{{ row.title }}</td>
