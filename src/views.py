@@ -17,7 +17,7 @@ view = Blueprint("view",__name__)
 
 @view.route("/")
 def index():
-    return render_template("login.html")
+    return redirect(url_for('view.catalog'))
 
 def book_urls(books):
     urls = []
