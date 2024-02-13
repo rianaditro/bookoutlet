@@ -75,17 +75,17 @@ def upload():
 
             for l in list_df:
                 dic = {
-                    "title":l[0],
-                    "author":l[1],
-                    "price":l[2],
-                    "binding":l[3],
-                    "isbn":l[4],
-                    "publish_date":l[5],
-                    "publisher":l[6],
-                    "language":l[7],
-                    "page_count":l[8],
-                    "dimension":l[9],
-                    "image":l[10]
+                    "title":f"{l[0]}",
+                    "author":f"{l[1]}",
+                    "price":f"{l[2]}",
+                    "binding":f"{l[3]}",
+                    "isbn":f"{l[4]}",
+                    "publish_date":f"{l[5]}",
+                    "publisher":f"{l[6]}",
+                    "language":f"{l[7]}",
+                    "page_count":f"{l[8]}",
+                    "dimension":f"{l[9]}",
+                    "image":f"{l[10]}"
                 }
                 list_of_object.append(dic)
                 
