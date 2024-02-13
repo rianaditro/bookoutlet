@@ -15,7 +15,7 @@
         <form action="/upload" method=post enctype=multipart/form-data>
           <input type=file name=file style="background-color: grey;">
           <input class="btn btn-primary" type=submit value=Upload>
-      </form>
+        </form>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in books %}
+                {%- for row in books %}
                 <tr>
                     <td><img src="{{ row.image }}" class="img-thumbnail"></td>
                     <td>{{ row.title }}</td>
@@ -64,7 +64,7 @@
                       </div>
                     </td>
                 </tr>
-                {% endfor %}
+                {%- endfor %}
             </tbody>
         </table>
     </div>

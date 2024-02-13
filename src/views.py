@@ -21,7 +21,7 @@ def index():
 
 def book_urls(books):
     urls = []
-    for book in books:
+    for book in books.items:
         title = book.title
         to_url = re.sub(r'[^a-zA-Z0-9]+', '-', title.replace("-","")).lower()
         if to_url[-1] == "-":
@@ -46,7 +46,7 @@ def catalog():
     books = Book.query.paginate(page=page,per_page=per_page)
     book_url = book_urls(books)
     max_page = books.pages
-    return render_template("catalog.html",books=books, urls = book_url,max_page=max_page,page=page)
+    return render_template("catalog.html",books=books.items, urls = book_url,max_page=max_page,page=page)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -111,7 +111,7 @@ def upload():
         else:
             messages = "no file"
             return redirect(url_for('view.table',messages=messages))
-    return redirect(url_for("view.table"))
+    return render_template('upload.html')
 
 @view.route("/table",methods=["GET","POST"])
 @login_required
@@ -124,11 +124,11 @@ def table():
         search_query = request.form.get('search_query')
         books = Book.query.filter(Book.title.ilike(f"%{search_query}%")).paginate(page=page,per_page=per_page)
         max_page = books.pages
-        return render_template("table.html",books=books,page=page,max_page=max_page, search_query=search_query)
+        return render_template("table.html",books=books.items,page=page,max_page=max_page, search_query=search_query)
 
-    books = Book.query.paginate(page=page,per_page=per_page)
+    books = Book.query. paginate(page=page,per_page=per_page)
     max_page = books.pages
-    return render_template("table.html",books=books,max_page=max_page,page=page)
+    return render_template("table.html",books=books.items,max_page=max_page,page=page)
 
 @view.route("/add",methods=["GET","POST"])
 @login_required
